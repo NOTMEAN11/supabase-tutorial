@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Supabase Nextjs Tutorial
 
-## Getting Started
+นี่คือตัวอย่างการใช้งาน [Supabase](https://supabase.com/) และ [Next.js](https://nextjs.org/) ในการสร้างเว็บไซต์ที่มีการรับส่งข้อมูลแบบ Realtime
 
-First, run the development server:
+## ความต้องการ
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Node.js](https://nodejs.org/en/) - Javasrcipt รันไทม์ (version 14 ขึ้นไป)
+- [pnpm](https://pnpm.io/) - Package Manager สำหรับ Node.js (version 6 ขึ้นไป)
+- [Git](https://git-scm.com/) - Version Control System
+- [Visual Studio Code](https://code.visualstudio.com/) - Code Editor
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Supabase](https://supabase.com/) - บริการ Database แบบ Open Source และ Realtime
+- [Next.js](https://nextjs.org/) - Framework สำหรับการพัฒนาเว็บไซต์แบบ SSR และ SSG ของ React
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## วิธีการใช้งาน
 
-## Learn More
+1. โคลน Repository นี้
+2. สร้างไฟล์ `.env.local` และใส่ค่าตาม `.env.example`
+3. รันคำสั่ง `pnpm install` เพื่อติดตั้ง dependencies
+4. รันคำสั่ง `pnpm dev` เพื่อรันโปรเจค
+5. เปิดเว็บไซต์ที่ `http://localhost:3000`
 
-To learn more about Next.js, take a look at the following resources:
+## วิธีการใช้งาน Supabase
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. สร้าง Project ใน Supabase
+2. สร้าง Table ใน Supabase
+   1. `employees`
+      - `id` (type: `uuid`, primary key)
+      - `name` (type: `text`)
+      - `position` (type: `text`)
+      - `salary` (type: `int8`)
+      - `gender` (type: `text`)
+      - `created_at` (type: `timestamp`, default: `now()`)
+   2. `teams`
+      - `id` (type: `uuid`, primary key)
+      - `name` (type: `text`)
+      - `created_at` (type: `timestamp`, default: `now()`)
+   3. `projects`
+      - `id` (type: `uuid`, primary key)
+      - `name` (type: `text`)
+      - `level` (type: `int2`)
+      - `team_id` (type: `uuid`, foreign key: `teams.id`)
+      - `created_at` (type: `timestamp`, default: `now()`)
+3. สร้างความสัมพันธ์ many to many
+   1. `employees` กับ `teams`
+      ```sql
+      create table team_projects (
+        team_id uuid references teams not null,
+        employee_id uuid references employees not null,
+        primary key (team_id, project_id)
+      );
+      ```

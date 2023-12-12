@@ -1,39 +1,54 @@
 import { db } from "@/lib/db";
+import { THB } from "@/lib/utils";
 import React from "react";
+import ButtonGroup from "./_components/button-group";
+
+import Link from "next/link";
 
 async function EmployeePage() {
-  const { data, error } = await db.from("employees").select("*").order("id");
+  const data: any = [];
 
-  console.log(data, error);
   return (
-    <div className="overflow-x-auto">
-      <table className="table table-sm">
-        <thead>
-          <tr>
-            {/* <th>รหัสพนักงาน</th> */}
-            <th>ชื่อ</th>
-            <th>ตำแหน่ง</th>
-            <th>เงินเดือน</th>
-            <th>เพศ</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((employee) => (
-            <tr key={employee.id}>
-              {/* <td>{employee.id}</td> */}
-              <td>{employee.name}</td>
-              <td>{employee.position}</td>
-              <td>{employee.salary}</td>
-              <td>{employee.gender}</td>
-              <td>
-                <button className="btn btn-outline btn-sm">แก้ไข</button>
-                <button className="btn btn-danger btn-sm ml-1">ลบ</button>
-              </td>
+    <div className="w-[1200px] p-4 flex items-center justify-center mx-auto flex-col">
+      <h1 className="text-4xl my-4">ตารางพนักงาน</h1>
+      <div className="overflow-x-auto h-[500px] overflow-y-auto">
+        <table className="table table-sm">
+          <thead>
+            <tr>
+              {/* <th>รหัสพนักงาน</th> */}
+              <th>ชื่อ</th>
+              <th>ตำแหน่ง</th>
+              <th>เงินเดือน</th>
+              <th>เพศ</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.length === 0 && (
+              <tr>
+                <td colSpan={5} className="text-center">
+                  ไม่มีข้อมูล
+                </td>
+              </tr>
+            )}
+            {data?.map((employee: any) => (
+              <tr key={employee.id}>
+                {/* <td>{employee.id}</td> */}
+                <td>{employee.name}</td>
+                <td>{employee.position}</td>
+                <td>{THB(employee.salary)}</td>
+                <td>{employee.gender}</td>
+                <td>
+                  <ButtonGroup id={employee.id} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Link href="/employees/add" className="btn btn-primary my-4">
+        เพิ่มพนักงาน
+      </Link>
     </div>
   );
 }

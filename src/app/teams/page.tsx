@@ -3,6 +3,8 @@ import Link from "next/link";
 import React from "react";
 import ButtonGroup from "./_components/button-group";
 
+export const revalidate = 0;
+
 async function EmployeePage() {
   const data: any = [];
   return (

@@ -2,6 +2,8 @@ import { db } from "@/lib/db";
 import { THB } from "@/lib/utils";
 import React from "react";
 
+export const revalidate = 0;
+
 async function ProjectIdPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const data = { name: "โปรเจ็คใหม่" };

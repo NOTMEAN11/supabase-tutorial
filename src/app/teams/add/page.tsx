@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import React from "react";
 
+export const revalidate = 0;
+
 async function AddEmp() {
   const data: any = [];
   return (

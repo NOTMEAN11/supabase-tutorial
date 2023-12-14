@@ -5,6 +5,8 @@ import ButtonGroup from "./_components/button-group";
 
 import Link from "next/link";
 
+export const revalidate = 0;
+
 async function EmployeePage() {
   const data: any = [];
 

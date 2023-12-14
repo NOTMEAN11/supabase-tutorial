@@ -1,5 +1,7 @@
 import React from "react";
 
+export const revalidate = 0;
+
 function AddProject() {
   async function Action(formData: FormData) {
     "use server";

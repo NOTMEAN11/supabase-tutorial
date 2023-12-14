@@ -46,9 +46,9 @@
 3. สร้างความสัมพันธ์ many to many
    1. `employees` กับ `teams`
       ```sql
-      create table team_projects (
-        team_id uuid references teams not null,
-        employee_id uuid references employees not null,
-        primary key (team_id, project_id)
+      create table members (
+        "team_id" uuid references teams,
+        "employee_id" uuid references employees,
+        primary key (team_id,employee_id)
       );
       ```

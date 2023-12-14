@@ -20,6 +20,8 @@ async function EmployeeIdPage({ params }: { params: { id: string } }) {
       salary: formData.get("salary") || data?.salary,
       gender: formData.get("gender") || data?.gender,
     };
+
+    //TODO: ส่งข้อมูลไปบันทึกที่ API
   }
   return (
     <div className="flex items-center justify-center my-8 flex-col">

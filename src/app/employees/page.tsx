@@ -15,7 +15,6 @@ async function EmployeePage() {
         <table className="table table-sm">
           <thead>
             <tr>
-              {/* <th>รหัสพนักงาน</th> */}
               <th>ชื่อ</th>
               <th>ตำแหน่ง</th>
               <th>เงินเดือน</th>
@@ -33,7 +32,6 @@ async function EmployeePage() {
             )}
             {data?.map((employee: any) => (
               <tr key={employee.id}>
-                {/* <td>{employee.id}</td> */}
                 <td>{employee.name}</td>
                 <td>{employee.position}</td>
                 <td>{THB(employee.salary)}</td>

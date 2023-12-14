@@ -18,6 +18,8 @@ async function ProjectIdPage({ params }: { params: { id: string } }) {
       level: formData.get("level"),
       team: formData.get("team"),
     };
+
+    //TODO: ส่งข้อมูลไปบันทึกที่ API
   }
 
   return (

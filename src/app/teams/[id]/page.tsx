@@ -4,11 +4,7 @@ import React from "react";
 
 async function TeamIdPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  const { data, error } = await db
-    .from("teams")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const data = { name: "ทีมใหม่", level: "Newbie", team: "ทีมพัฒนา" };
 
   async function Action(formData: FormData) {
     "use server";
@@ -18,7 +14,8 @@ async function TeamIdPage({ params }: { params: { id: string } }) {
       level: formData.get("level"),
       team: formData.get("team"),
     };
-    console.log(rawFormData);
+
+    //TODO: ส่งข้อมูลไปบันทึกที่ API
   }
 
   return (

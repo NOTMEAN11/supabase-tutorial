@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import React from "react";
 
 async function AddEmp() {
-  const { data } = await db.from("employees").select("*").order("id");
+  const data: any = [];
   return (
     <div className="my-10 flex items-center justify-center flex-col">
       <h1 className="text-3xl mb-4">เพิ่มทีม</h1>

@@ -1,25 +1,32 @@
 import { db } from "@/lib/db";
 import { THB } from "@/lib/utils";
+import { redirect } from "next/navigation";
 import React from "react";
+
+export const revalidate = 0;
 
 async function EmployeeIdPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  const data = {
-    name: "พนักงานใหม่",
-    position: "Newbie",
-    salary: 90000,
-    gender: "Male",
-  };
-
+  const { data, error } = await db
+    .from("employees")
+    .select("*")
+    .eq("id", id)
+    .single();
   async function Action(formData: FormData) {
     "use server";
 
     const rawFormData = {
-      name: formData.get("name") || data?.name,
-      position: formData.get("position") || data?.position,
-      salary: formData.get("salary") || data?.salary,
-      gender: formData.get("gender") || data?.gender,
+      name: (formData.get("name") as string) || data?.name,
+      position: (formData.get("position") as string) || data?.position,
+      salary: Number(formData.get("salary") as string) || data?.salary,
+      gender: (formData.get("gender") as string) || data?.gender,
     };
+
+    await db
+      .from("employees")
+      .update(rawFormData)
+      .match({ id })
+      .then(() => redirect("/employees"));
   }
   return (
     <div className="flex items-center justify-center my-8 flex-col">

@@ -3,8 +3,10 @@ import Link from "next/link";
 import React from "react";
 import ButtonGroup from "./_components/button-group";
 
+export const revalidate = 0;
+
 async function EmployeePage() {
-  const data: any = [];
+  const { data, error } = await db.from("teams").select("*, employees(*)");
   return (
     <div className="w-[1200px] p-4 flex items-center justify-center mx-auto flex-col">
       <h1 className="text-4xl my-4">ตารางทีม</h1>

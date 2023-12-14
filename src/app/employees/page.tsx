@@ -5,8 +5,10 @@ import ButtonGroup from "./_components/button-group";
 
 import Link from "next/link";
 
+export const revalidate = 0;
+
 async function EmployeePage() {
-  const data: any = [];
+  const { data, error } = await db.from("employees").select("*");
 
   return (
     <div className="w-[1200px] p-4 flex items-center justify-center mx-auto flex-col">

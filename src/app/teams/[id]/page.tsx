@@ -1,6 +1,9 @@
 import { db } from "@/lib/db";
 import { THB } from "@/lib/utils";
+import { redirect } from "next/navigation";
 import React from "react";
+
+export const revalidate = 0;
 
 async function TeamIdPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -14,11 +17,14 @@ async function TeamIdPage({ params }: { params: { id: string } }) {
     "use server";
 
     const rawFormData = {
-      name: formData.get("name"),
-      level: formData.get("level"),
-      team: formData.get("team"),
+      name: formData.get("name") as string,
     };
-    console.log(rawFormData);
+
+    await db
+      .from("teams")
+      .update(rawFormData)
+      .match({ id })
+      .then(() => redirect("/teams"));
   }
 
   return (
@@ -27,8 +33,7 @@ async function TeamIdPage({ params }: { params: { id: string } }) {
       <form className="card bg-white w-96 p-4" action={Action}>
         <label className="label text-sm">ชื่อทีม</label>
         <input
-          placeholder={data?.name}
-          value={data?.name}
+          placeholder={data?.name!}
           name="name"
           className="input bg-gray-300 input-sm"
         />

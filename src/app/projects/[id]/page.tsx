@@ -1,23 +1,35 @@
 import { db } from "@/lib/db";
 import { THB } from "@/lib/utils";
+import { redirect } from "next/navigation";
 import React from "react";
+
+export const revalidate = 0;
 
 async function ProjectIdPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  const data = { name: "โปรเจ็คใหม่" };
-  const teamData = [
-    { id: 1, name: "ทีมพัฒนา" },
-    { id: 2, name: "ทีมสนับสนุน" },
-  ];
+  const { data, error } = await db
+    .from("project")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  const { data: teamData } = await db.from("teams").select("*");
 
   async function Action(formData: FormData) {
     "use server";
 
     const rawFormData = {
-      name: formData.get("name"),
-      level: formData.get("level"),
-      team: formData.get("team"),
+      name: formData.get("name") as string,
+      level: Number(formData.get("level") as string),
+      team_id: formData.get("team_id") as string,
     };
+
+    console.log(rawFormData);
+    await db
+      .from("project")
+      .update(rawFormData)
+      .match({ id })
+      .then((data) => console.log(data));
   }
 
   return (
@@ -27,21 +39,20 @@ async function ProjectIdPage({ params }: { params: { id: string } }) {
         <label className="label text-sm">ชื่อโปรเจ็ค</label>
         <input
           placeholder={data?.name}
-          value={data?.name}
           name="name"
           className="input bg-gray-300 input-sm"
         />
         <label className="label text-sm">ระดับความสำคัญ</label>
         <select className="input bg-gray-300 input-sm" name="level">
           <option>เลือกระดับความสำคัญ</option>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]?.map((item) => (
-            <option key={item} value={item}>
+          {["สำคัญมาก", "สำคัญปานกลาง", "สำคัญน้อย"]?.map((item, index) => (
+            <option key={item} value={index + 1}>
               {item}
             </option>
           ))}
         </select>
         <label className="label text-sm">ทีมที่รับผิดชอบ</label>
-        <select className="input bg-gray-300 input-sm" name="team">
+        <select className="input bg-gray-300 input-sm" name="team_id">
           <option>เลือกทีม</option>
           {teamData?.map((item: any) => (
             <option key={item.id} value={item.id}>

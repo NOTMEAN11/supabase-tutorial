@@ -52,3 +52,6 @@
         primary key (team_id,employee_id)
       );
       ```
+
+# Video
+[![](https://res.cloudinary.com/marcomontalbano/image/upload/v1708013458/video_to_markdown/images/youtube--Qt5LKrKEqO0-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/Qt5LKrKEqO0 "")
